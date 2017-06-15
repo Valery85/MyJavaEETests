@@ -17,7 +17,8 @@ public class CalcServler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
+        try  {
             
             
             Calc c = new Calc();
@@ -36,8 +37,7 @@ public class CalcServler extends HttpServlet {
           
   // add Session attribute
             
-          
-            
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -48,14 +48,20 @@ public class CalcServler extends HttpServlet {
 //            out.println("<h1> " + oneI + c.outputPage(operation) +
 //                    twoI  + " = " + c.calculation(oneI, twoI, operation) + "</h1>");
             out.println ("<h1> " + resultStr + "</h1>" );
+
+// output all operation which user calculate
             for (Object s: strStore){
                 out.println("<h1> " + s.toString() +  "</h1>");
             }
-            
-            
+
             out.println("</body>");
             out.println("</html>");
         }
+        catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
