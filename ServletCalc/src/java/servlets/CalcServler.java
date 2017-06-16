@@ -57,6 +57,7 @@ public class CalcServler extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+  // add page with error 
         catch (Exception e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             
