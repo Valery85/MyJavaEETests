@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logicClasses.Calc;
+import logicClasses.TypeOperationE;
 
 
 public class CalcServler extends HttpServlet {
@@ -37,7 +38,7 @@ public class CalcServler extends HttpServlet {
           
   // add Session attribute
             
-
+                
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -48,7 +49,7 @@ public class CalcServler extends HttpServlet {
 //            out.println("<h1> " + oneI + c.outputPage(operation) +
 //                    twoI  + " = " + c.calculation(oneI, twoI, operation) + "</h1>");
             out.println ("<h1> " + resultStr + "</h1>" );
-
+       
 // output all operation which user calculate
             for (Object s: strStore){
                 out.println("<h1> " + s.toString() +  "</h1>");
