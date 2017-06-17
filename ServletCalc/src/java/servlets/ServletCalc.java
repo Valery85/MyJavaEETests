@@ -71,9 +71,17 @@ public class ServletCalc extends HttpServlet {
        
             operationsAllUsers.put(request.getSession().getId(), strStoreInSession);
             
-            out.println("<h1> " + "KeySet" +   operationsAllUsers.keySet() + "</h1>");
+            out.println("<h1> " + "KeySet" +   operationsAllUsers.keySet()  + " " +
+              operationsAllUsers.keySet().getClass() + "</h1>");
            
+            for (String s : operationsAllUsers.keySet()){
+      // s - key (sessionId)   ;  operationsAllUsers.get(s) -- value (ArrayList of operation)           
+            out.println ("<h1> " + s + " " + operationsAllUsers.get(s)  + "<h1> "); 
             
+//                for ( String str : operationsAllUsers.get(s) ){
+//                    
+//                }
+                    }
             
             
 // output all operation which user calculate from ArrayList
