@@ -8,17 +8,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import logicClasses.Calc;
 import logicClasses.TypeOperationE;
 
 
-public class CalcServler extends HttpServlet {
+public class ServletCalc extends HttpServlet {
     ArrayList strStore = new ArrayList();
-   
+    ArrayList strStoreInSession = new ArrayList();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+// create session for store user param       
+        HttpSession session = request.getSession(true);
+       
         try  {
             
             
@@ -37,7 +41,6 @@ public class CalcServler extends HttpServlet {
   //         c.outputConsole(c.calculation( oneI, twoI, operation));
           
   // add Session attribute
-            
                 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -50,11 +53,22 @@ public class CalcServler extends HttpServlet {
 //                    twoI  + " = " + c.calculation(oneI, twoI, operation) + "</h1>");
             out.println ("<h1> " + resultStr + "</h1>" );
        
-// output all operation which user calculate
+// output all operation which user calculate from ArrayList
             for (Object s: strStore){
                 out.println("<h1> " + s.toString() +  "</h1>");
             }
+//store user operation in Session
+              session.setAttribute("strCalc", strStore);
+            strStoreInSession = (ArrayList)session.getAttribute("strCalc");
 
+// output all operation which user calculate from Session attribute              
+           out.println("<h1> " + "Session id: " + request.getSession().getId() +  "</h1>");
+            for (Object str: strStoreInSession){
+                 out.println("<h1 style =\"color: red\">" +  str+ "</h1>");
+             }
+             
+             
+             
             out.println("</body>");
             out.println("</html>");
         }
