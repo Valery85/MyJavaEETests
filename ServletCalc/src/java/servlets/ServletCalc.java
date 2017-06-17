@@ -4,6 +4,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,15 +15,28 @@ import logicClasses.TypeOperationE;
 
 
 public class ServletCalc extends HttpServlet {
-    ArrayList strStore = new ArrayList();
-    ArrayList strStoreInSession = new ArrayList();
+ 
+// for storing all users operations    
+    HashMap<String, ArrayList> operationsAllUsers = new HashMap<>();
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 // create session for store user param       
         HttpSession session = request.getSession(true);
-       
+        
+     //   ArrayList strStore  ;
+        ArrayList strStoreInSession;
+    
+        if (session.isNew()){
+            strStoreInSession = new ArrayList();
+        }
+        else {
+        strStoreInSession = (ArrayList)session.getAttribute("strCalc");
+                }          
+        
+        
         try  {
             
             
@@ -37,9 +51,11 @@ public class ServletCalc extends HttpServlet {
           
            String resultStr = one + " " + c.outputPage(operation) + " " + two +
                    " = " + c.calculation(oneI, twoI, operation);
-           strStore.add(resultStr);
+           strStoreInSession.add(resultStr);
   //         c.outputConsole(c.calculation( oneI, twoI, operation));
-          
+         
+           session.setAttribute("strCalc", strStoreInSession);
+           
   // add Session attribute
                 
             out.println("<!DOCTYPE html>");
@@ -53,13 +69,19 @@ public class ServletCalc extends HttpServlet {
 //                    twoI  + " = " + c.calculation(oneI, twoI, operation) + "</h1>");
             out.println ("<h1> " + resultStr + "</h1>" );
        
+            operationsAllUsers.put(request.getSession().getId(), strStoreInSession);
+            
+            out.println("<h1> " + "KeySet" +   operationsAllUsers.keySet() + "</h1>");
+           
+            
+            
+            
 // output all operation which user calculate from ArrayList
-            for (Object s: strStore){
-                out.println("<h1> " + s.toString() +  "</h1>");
-            }
+//            for (Object s: strStore){
+//                out.println("<h1> " + s.toString() +  "</h1>");
+//            }
 //store user operation in Session
-              session.setAttribute("strCalc", strStore);
-            strStoreInSession = (ArrayList)session.getAttribute("strCalc");
+
 
 // output all operation which user calculate from Session attribute              
            out.println("<h1> " + "Session id: " + request.getSession().getId() +  "</h1>");
